@@ -3,7 +3,7 @@ from app_pages.multipage import MultiPage
 
 # load pages scripts
 from app_pages.page_summary import page_summary_body
-from page_price_predictor import page_price_predictor_body
+from app_pages.page_price_predictor import page_price_predictor_body
 
 app = MultiPage(app_name= "Sale Price Predictor") # Create an instance of the app 
 
