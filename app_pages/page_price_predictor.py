@@ -22,9 +22,30 @@ def page_price_predictor_body():
         f"The client wants to be able to predict the sale price of a house "
     )
     st.write("---")
+    df = pd.read_csv("inputs/datasets/raw/house_price_data/inherited_houses.csv")
+    st.write('***inherited houses:***')
+    print('df')
+
+    print(df.info())
+    print('enddf')
+    # st.write(df.info())
+    filtered_df = df.filter(sale_price_features)
+    print(filtered_df.info())
+    # print(df.loc[1])
+    for i in range(len(filtered_df)):
+        
+        st.write(f'inherited house {i}:')
+        test_data_set = pd.DataFrame(filtered_df.loc[i]).transpose()
+        st.write(test_data_set)
+        print(test_data_set)
+        prediction = sale_price_pipeline.predict(test_data_set)
+        st.write('prediction:')
+        st.write(prediction)
+            
 
     # Generate Live Data
     check_variables_for_UI(sale_price_features)
+    st.write('enter values to predict a price:')
     X_live = DrawInputsWidgets()
 
     # predict on live data
@@ -33,8 +54,13 @@ def page_price_predictor_body():
         #     X_live, churn_features, churn_pipe_dc_fe, churn_pipe_model)
 
         # if churn_prediction == 1:
+        st.write('input data set:')
+        st.write(X_live)
+        st.write('predicted price:')
         predict_sale_price(X_live, sale_price_features,
                         sale_price_pipeline)
+    
+
 
 
 
@@ -59,8 +85,7 @@ def DrawInputsWidgets():
     percentageMin, percentageMax = 0.4, 2.0
 
 # we create input widgets only for 6 features
-    col1, col2, col3, col4 = st.beta_columns(4)
-    col5, col6, col7, col8 = st.beta_columns(4)
+    col1, col2, col3 = st.beta_columns(3)
 
     # We are using these features to feed the ML pipeline - values copied from check_variables_for_UI() result
 
